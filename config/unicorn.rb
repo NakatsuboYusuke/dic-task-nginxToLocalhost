@@ -1,12 +1,5 @@
-# For Heroku Env
-require 'fileutils'
-listen '/tmp/nginx.socket'
-before_fork do |server,worker|
-	FileUtils.touch('/tmp/app-initialized')
-end
-
 # For Local Env
-=begin rails_root = File.expand_path('../../', __FILE__)
+rails_root = File.expand_path('../../', __FILE__)
 
 worker_processes 2
 working_directory rails_root
@@ -15,4 +8,23 @@ listen "#{rails_root}/tmp/unicorn.sock"
 pid "#{rails_root}/tmp/unicorn.pid"
 
 stderr_path "#{rails_root}/log/unicorn_error.log"
-stdout_path "#{rails_root}/log/unicorn.log" =end
+stdout_path "#{rails_root}/log/unicorn.log"
+
+# For Heroku Env
+=begin require 'fileutils'
+listen '/tmp/nginx.socket'
+before_fork do |server,worker|
+	FileUtils.touch('/tmp/app-initialized')
+end =end
+
+# For Local Env
+rails_root = File.expand_path('../../', __FILE__)
+
+worker_processes 2
+working_directory rails_root
+
+listen "#{rails_root}/tmp/unicorn.sock"
+pid "#{rails_root}/tmp/unicorn.pid"
+
+stderr_path "#{rails_root}/log/unicorn_error.log"
+stdout_path "#{rails_root}/log/unicorn.log"
